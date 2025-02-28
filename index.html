@@ -52,7 +52,6 @@
         });
 
         // Gestion du zoom avec les doigts sur mobile
-        let initialDistance = null;
         document.addEventListener("touchstart", (event) => {
             if (event.touches.length === 2) {
                 initialDistance = Math.hypot(
