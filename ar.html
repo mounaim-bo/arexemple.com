@@ -30,6 +30,29 @@
     <script>
         let img = document.getElementById("draggable-image");
         let isDragging = false, startX, startY;
+        let scaleFactor = 1;
+
+        // Gestion du zoom avec la molette de la souris
+        window.addEventListener("wheel", (event) => {
+            if (event.deltaY > 0) {
+                scaleFactor -= 0.1; // Dézoomer
+            } else {
+                scaleFactor += 0.1; // Zoomer
+            }
+            scaleFactor = Math.max(0.5, Math.min(3, scaleFactor)); // Limite le zoom
+            img.setAttribute("scale", `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
+        });
+
+        // Gestion du zoom avec les doigts sur mobile
+        let initialDistance = null;
+        window.addEventListener("touchstart", (event) => {
+            if (event.touches.length === 2) {
+                initialDistance = Math.hypot(
+                    event.touches[0].pageX - event.touches[1].pageX,
+                    event.touches[0].pageY - event.touches[1].pageY
+                );
+            }
+        });
 
         // Commence à bouger
         img.addEventListener("mousedown", (e) => {
