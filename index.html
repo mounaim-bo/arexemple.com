@@ -5,7 +5,24 @@
     </head>
     <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
     <script src="https://rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
-
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            touch-action: none; /* Empêche le pinch-zoom du navigateur */
+            overflow: hidden;   /* Empêche le défilement de la page */
+        }
+        #draggable-image {
+            touch-action: manipulation;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+        }
+    </style>
     <body style='margin : 0px; overflow: hidden;'>
         <a-scene embedded arjs='sourceType: webcam;'>
             
