@@ -54,11 +54,12 @@
         let initialDistance = null;
         window.addEventListener("touchstart", (event) => {
             if (event.touches.length === 2) {
-                alert(event.touches.length);
                 initialDistance = Math.hypot(
                     event.touches[0].pageX - event.touches[1].pageX,
                     event.touches[0].pageY - event.touches[1].pageY
                 );
+                scaleFactor = Math.max(0.5, Math.min(3, scaleFactor)); // Limite le zoom
+                img.setAttribute("scale", `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
             }
         });
 
