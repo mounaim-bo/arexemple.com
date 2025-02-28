@@ -85,10 +85,25 @@
             img.style.top = e.clientY - startY + "px";
         });
 
-        document.addEventListener("touchmove", (e) => {
+        /*document.addEventListener("touchmove", (e) => {
             if (!isDragging) return;
             img.style.left = e.touches[0].clientX - startX + "px";
             img.style.top = e.touches[0].clientY - startY + "px";
+        });*/
+        window.addEventListener("touchmove", (event) => {
+            if (event.touches.length === 2 && initialDistance) {
+                let currentDistance = Math.hypot(
+                    event.touches[0].pageX - event.touches[1].pageX,
+                    event.touches[0].pageY - event.touches[1].pageY
+                );
+        
+                let zoomFactor = currentDistance / initialDistance;
+                scale *= zoomFactor;
+        
+                document.body.style.transform = `scale(${scale})`; // Exemple d'application du zoom
+        
+                initialDistance = currentDistance;
+            }
         });
 
         // Arrête le déplacement
