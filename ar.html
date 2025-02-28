@@ -37,6 +37,7 @@
     <script>
         let img = document.getElementById("draggable-image");
         let isDragging = false, startX, startY;
+        let initialDistance = null;
         let scaleFactor = 1;
 
         // Gestion du zoom avec la molette de la souris
@@ -71,11 +72,20 @@
             img.style.cursor = "grabbing";
         });
 
-        img.addEventListener("touchstart", (e) => {
+        /*img.addEventListener("touchstart", (e) => {
             isDragging = true;
             startX = e.touches[0].clientX - img.offsetLeft;
             startY = e.touches[0].clientY - img.offsetTop;
             img.style.cursor = "grabbing";
+        });*/
+        img.addEventListener("touchstart", (event) => {
+            if (event.touches.length === 2) {
+                event.preventDefault(); // Empêche le comportement par défaut
+                initialDistance = Math.hypot(
+                    event.touches[0].pageX - event.touches[1].pageX,
+                    event.touches[0].pageY - event.touches[1].pageY
+                );
+            }
         });
 
         // Déplace l’image
@@ -84,14 +94,10 @@
             img.style.left = e.clientX - startX + "px";
             img.style.top = e.clientY - startY + "px";
         });
-
-        /*document.addEventListener("touchmove", (e) => {
-            if (!isDragging) return;
-            img.style.left = e.touches[0].clientX - startX + "px";
-            img.style.top = e.touches[0].clientY - startY + "px";
-        });*/
-        window.addEventListener("touchmove", (event) => {
+        img.addEventListener("touchmove", (event) => {
             if (event.touches.length === 2 && initialDistance) {
+                event.preventDefault();
+                
                 let currentDistance = Math.hypot(
                     event.touches[0].pageX - event.touches[1].pageX,
                     event.touches[0].pageY - event.touches[1].pageY
@@ -100,11 +106,36 @@
                 let zoomFactor = currentDistance / initialDistance;
                 scale *= zoomFactor;
         
-                document.body.style.transform = `scale(${scale})`; // Exemple d'application du zoom
+                // Applique le zoom
+                img.style.transform = `scale(${scale})`;
         
+                // Met à jour la distance initiale
                 initialDistance = currentDistance;
             }
         });
+
+        /*document.addEventListener("touchmove", (e) => {
+            if (!isDragging) return;
+            img.style.left = e.touches[0].clientX - startX + "px";
+            img.style.top = e.touches[0].clientY - startY + "px";
+        });
+        window.addEventListener("touchmove", (event) => {
+            if (event.touches.length === 2 && initialDistance) {
+                        event.preventDefault();
+
+                let currentDistance = Math.hypot(
+                    event.touches[0].pageX - event.touches[1].pageX,
+                    event.touches[0].pageY - event.touches[1].pageY
+                );
+        
+                let zoomFactor = currentDistance / initialDistance;
+                scale *= zoomFactor;
+        
+                img.style.transform = `scale(${scale})`;
+        
+                initialDistance = currentDistance;
+            }
+        });*/
 
         // Arrête le déplacement
         document.addEventListener("mouseup", () => {
