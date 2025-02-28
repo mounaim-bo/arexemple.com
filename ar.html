@@ -1,68 +1,75 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  </head>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+<html lang="fr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        #draggable-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+        }
+    </style>
+</head>
+<body>
 
-  <body style='margin: 0px; overflow: hidden;'>
-    <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false;'>
-
-      <a-assets>
-        <img id="image-texture" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg">
-      </a-assets>
-
-      <!-- Image en AR qu'on peut déplacer -->
-      <a-plane id="draggable-image"
-               src="#image-texture"
-               position="0 0 -2"
-               width="1"
-               height="1"
-               gesture-handler>
-      </a-plane>
-
-      <a-entity camera></a-entity>
+    <!-- Scène AR -->
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+        <a-marker-camera preset='hiro'></a-marker-camera>
     </a-scene>
 
+    <!-- Image SUPERPOSÉE en 2D -->
+    <img id="draggable-image" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg">
+
     <script>
-      AFRAME.registerComponent('gesture-handler', {
-        init: function () {
-          let el = this.el;
-          let dragging = false;
-          let startX, startY;
+        let img = document.getElementById("draggable-image");
+        let isDragging = false, startX, startY;
 
-          // Commence à déplacer quand on touche/clic
-          el.addEventListener('mousedown', function (event) {
-            dragging = true;
-            startX = event.clientX;
-            startY = event.clientY;
-          });
+        // Commence à bouger
+        img.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            startX = e.clientX - img.offsetLeft;
+            startY = e.clientY - img.offsetTop;
+            img.style.cursor = "grabbing";
+        });
 
-          // Déplacement
-          window.addEventListener('mousemove', function (event) {
-            if (!dragging) return;
+        img.addEventListener("touchstart", (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX - img.offsetLeft;
+            startY = e.touches[0].clientY - img.offsetTop;
+            img.style.cursor = "grabbing";
+        });
 
-            let deltaX = (event.clientX - startX) / window.innerWidth * 2;
-            let deltaY = -(event.clientY - startY) / window.innerHeight * 2;
+        // Déplace l’image
+        document.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            img.style.left = e.clientX - startX + "px";
+            img.style.top = e.clientY - startY + "px";
+        });
 
-            let pos = el.getAttribute('position');
-            el.setAttribute('position', {
-              x: pos.x + deltaX,
-              y: pos.y + deltaY,
-              z: pos.z
-            });
+        document.addEventListener("touchmove", (e) => {
+            if (!isDragging) return;
+            img.style.left = e.touches[0].clientX - startX + "px";
+            img.style.top = e.touches[0].clientY - startY + "px";
+        });
 
-            startX = event.clientX;
-            startY = event.clientY;
-          });
+        // Arrête le déplacement
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            img.style.cursor = "grab";
+        });
 
-          // Arrête le déplacement quand on relâche
-          window.addEventListener('mouseup', function () {
-            dragging = false;
-          });
-        }
-      });
+        document.addEventListener("touchend", () => {
+            isDragging = false;
+            img.style.cursor = "grab";
+        });
     </script>
-  </body>
+
+</body>
 </html>
