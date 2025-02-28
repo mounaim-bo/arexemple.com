@@ -1,4 +1,4 @@
-<!doctype HTML>
+<!DOCTYPE HTML>
 <html>
     <head>
         <meta name="viewport" content="width=device-width, user-scalable=no">
@@ -13,15 +13,17 @@
     <script src="https://rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
 
     <body>
-        <a-scene embedded arjs='sourceType: webcam;'>
+        <a-scene embedded arjs="sourceType: webcam;">
             
             <a-assets>
-                <img id="custom-image" src="https://your-image-url.com/image.png">
+                <!-- Remplace cette URL par ton image -->
+                <img id="custom-image" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg">
             </a-assets>
 
+            <!-- Image flottante avec une position et une taille adaptées -->
             <a-entity id="floating-image"
                       geometry="primitive: plane; height: 1; width: 1"
-                      material="src: #custom-image; transparent: true"
+                      material="src: #custom-image"
                       position="0 1 -2"
                       scale="1 1 1">
             </a-entity>
@@ -38,10 +40,10 @@
                 event.preventDefault();
             }, { passive: false });
 
-            // Zoom avec la molette de la souris
+            // Gestion du zoom avec la molette de la souris
             window.addEventListener("wheel", (event) => {
                 scaleFactor += event.deltaY > 0 ? -0.1 : 0.1;
-                scaleFactor = Math.max(0.5, Math.min(3, scaleFactor));
+                scaleFactor = Math.max(0.5, 3); // Limiter le zoom
                 img.setAttribute("scale", `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
             });
 
@@ -65,7 +67,7 @@
 
                     let zoomFactor = newDistance / initialDistance;
                     scaleFactor *= zoomFactor;
-                    scaleFactor = Math.max(0.5, Math.min(3, scaleFactor));
+                    scaleFactor = Math.max(0.5, 3);
                     img.setAttribute("scale", `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
 
                     initialDistance = newDistance;
