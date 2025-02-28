@@ -1,70 +1,75 @@
-<!doctype HTML>
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    </head>
-    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        #draggable-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+        }
+    </style>
+</head>
+<body>
 
-    <body style='margin : 0px; overflow: hidden;'>
-        <a-scene embedded arjs='sourceType: webcam;'>
-            
-            <a-assets>
-                <img id="custom-image" src="https://your-image-url.com/image.png">
-            </a-assets>
+    <!-- Scène AR -->
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+        <a-marker-camera preset='hiro'></a-marker-camera>
+    </a-scene>
 
-            <!-- Image flottante -->
-            <a-entity id="floating-image"
-                      geometry="primitive: plane; height: 1; width: 1"
-                      material="src: #custom-image; transparent: true"
-                      position="0 1 -2"
-                      scale="1 1 1">
-            </a-entity>
+    <!-- Image SUPERPOSÉE en 2D -->
+    <img id="draggable-image" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg">
 
-            <a-entity camera></a-entity>
-        </a-scene>
+    <script>
+        let img = document.getElementById("draggable-image");
+        let isDragging = false, startX, startY;
 
-        <script>
-            let img = document.querySelector("#floating-image");
-            let scaleFactor = 1;
+        // Commence à bouger
+        img.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            startX = e.clientX - img.offsetLeft;
+            startY = e.clientY - img.offsetTop;
+            img.style.cursor = "grabbing";
+        });
 
-            // Gestion du zoom avec la molette de la souris
-            window.addEventListener("wheel", (event) => {
-                if (event.deltaY > 0) {
-                    scaleFactor -= 0.1; // Dézoomer
-                } else {
-                    scaleFactor += 0.1; // Zoomer
-                }
-                scaleFactor = Math.max(0.5, Math.min(3, scaleFactor)); // Limite le zoom
-                img.setAttribute("scale", `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
-            });
+        img.addEventListener("touchstart", (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX - img.offsetLeft;
+            startY = e.touches[0].clientY - img.offsetTop;
+            img.style.cursor = "grabbing";
+        });
 
-            // Gestion du zoom avec les doigts sur mobile
-            let initialDistance = null;
-            window.addEventListener("touchstart", (event) => {
-                if (event.touches.length === 2) {
-                    initialDistance = Math.hypot(
-                        event.touches[0].pageX - event.touches[1].pageX,
-                        event.touches[0].pageY - event.touches[1].pageY
-                    );
-                }
-            });
+        // Déplace l’image
+        document.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            img.style.left = e.clientX - startX + "px";
+            img.style.top = e.clientY - startY + "px";
+        });
 
-            window.addEventListener("touchmove", (event) => {
-                if (event.touches.length === 2 && initialDistance) {
-                    let newDistance = Math.hypot(
-                        event.touches[0].pageX - event.touches[1].pageX,
-                        event.touches[0].pageY - event.touches[1].pageY
-                    );
+        document.addEventListener("touchmove", (e) => {
+            if (!isDragging) return;
+            img.style.left = e.touches[0].clientX - startX + "px";
+            img.style.top = e.touches[0].clientY - startY + "px";
+        });
 
-                    let zoomFactor = newDistance / initialDistance;
-                    scaleFactor *= zoomFactor;
-                    scaleFactor = Math.max(0.5, Math.min(3, scaleFactor));
-                    img.setAttribute("scale", `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
+        // Arrête le déplacement
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            img.style.cursor = "grab";
+        });
 
-                    initialDistance = newDistance;
-                }
-            });
-        </script>
-    </body>
+        document.addEventListener("touchend", () => {
+            isDragging = false;
+            img.style.cursor = "grab";
+        });
+    </script>
+
+</body>
 </html>
