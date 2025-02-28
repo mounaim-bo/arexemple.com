@@ -1,29 +1,22 @@
-<!DOCTYPE HTML>
+<!doctype HTML>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, user-scalable=no">
-        <style>
-            body {
-                touch-action: none; /* Empêche le pinch-zoom du navigateur */
-                overflow: hidden;   /* Empêche le défilement de la page */
-            }
-        </style>
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     </head>
     <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
     <script src="https://rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
 
-    <body>
-        <a-scene embedded arjs="sourceType: webcam;">
+    <body style='margin : 0px; overflow: hidden;'>
+        <a-scene embedded arjs='sourceType: webcam;'>
             
             <a-assets>
-                <!-- Remplace cette URL par ton image -->
-                <img id="custom-image" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg">
+                <img id="custom-image" src="https://your-image-url.com/image.png">
             </a-assets>
 
-            <!-- Image flottante avec une position et une taille adaptées -->
+            <!-- Image flottante -->
             <a-entity id="floating-image"
                       geometry="primitive: plane; height: 1; width: 1"
-                      material="src: #custom-image"
+                      material="src: #custom-image; transparent: true"
                       position="0 1 -2"
                       scale="1 1 1">
             </a-entity>
@@ -35,19 +28,18 @@
             let img = document.querySelector("#floating-image");
             let scaleFactor = 1;
 
-            // Empêcher le scroll de la page
-            window.addEventListener("touchmove", (event) => {
-                event.preventDefault();
-            }, { passive: false });
-
             // Gestion du zoom avec la molette de la souris
             window.addEventListener("wheel", (event) => {
-                scaleFactor += event.deltaY > 0 ? -0.1 : 0.1;
-                scaleFactor = Math.max(0.5, 3); // Limiter le zoom
+                if (event.deltaY > 0) {
+                    scaleFactor -= 0.1; // Dézoomer
+                } else {
+                    scaleFactor += 0.1; // Zoomer
+                }
+                scaleFactor = Math.max(0.5, Math.min(3, scaleFactor)); // Limite le zoom
                 img.setAttribute("scale", `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
             });
 
-            // Zoom avec les doigts sur mobile
+            // Gestion du zoom avec les doigts sur mobile
             let initialDistance = null;
             window.addEventListener("touchstart", (event) => {
                 if (event.touches.length === 2) {
@@ -67,7 +59,7 @@
 
                     let zoomFactor = newDistance / initialDistance;
                     scaleFactor *= zoomFactor;
-                    scaleFactor = Math.max(0.5, 3);
+                    scaleFactor = Math.max(0.5, Math.min(3, scaleFactor));
                     img.setAttribute("scale", `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
 
                     initialDistance = newDistance;
