@@ -41,7 +41,7 @@
 
             // Gestion du zoom avec les doigts sur mobile
             let initialDistance = null;
-            img.addEventListener("touchstart", (event) => {
+            document.addEventListener("touchstart", (event) => {
                 if (event.touches.length === 2) {
                     initialDistance = Math.hypot(
                         event.touches[0].pageX - event.touches[1].pageX,
@@ -50,7 +50,7 @@
                 }
             });
 
-            img.addEventListener("touchmove", (event) => {
+            document.addEventListener("touchmove", (event) => {
                 if (event.touches.length === 2 && initialDistance) {
                     let newDistance = Math.hypot(
                         event.touches[0].pageX - event.touches[1].pageX,
