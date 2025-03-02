@@ -78,7 +78,7 @@
             startY = e.touches[0].clientY - img.offsetTop;
             img.style.cursor = "grabbing";
         });*/
-        img.addEventListener("touchstart", (event) => {
+        window.addEventListener("touchstart", (event) => {
             if (event.touches.length === 2) {
                 event.preventDefault(); // Empêche le comportement par défaut
                 initialDistance = Math.hypot(
