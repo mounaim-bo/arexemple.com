@@ -94,7 +94,7 @@
             img.style.left = e.clientX - startX + "px";
             img.style.top = e.clientY - startY + "px";
         });
-        img.addEventListener("touchmove", (event) => {
+        document.addEventListener("touchmove", (event) => {
             if (event.touches.length === 2 && initialDistance) {
                 event.preventDefault();
                 
