@@ -24,11 +24,14 @@
   <body>
   
       <!-- Scène AR -->
-      <a-assets>
-        <a-asset-item src="></a-asset-item>
-      </a-assets>
-      <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-          <a-marker-camera preset='hiro'></a-marker-camera>
+      <a-scene>
+        <a-assets>
+          <a-asset-item id="image_" src="sans_nom.glb"></a-asset-item>
+        </a-assets>
+        <a-entity position="-3 0 50">
+          <a-camera></a-camera>
+        </a-entity>
+        <a-entity gltf-model="#image_"></a-entity>
       </a-scene>
       <script></script>
   </body>
