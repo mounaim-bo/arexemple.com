@@ -7,20 +7,20 @@
 <body>
     <a-scene>
         <a-assets>
-            <img id="sky" src="tableau-decoratif-street-art-visage.jpg">
-            <a-asset-item id="image_" src="sans_nom.glb"></a-asset-item>
+            <img id="image" src="tableau-decoratif-street-art-visage.jpg">
         </a-assets>
-        
-        <!-- Image visible à l'extérieur -->
-        <a-plane src="#sky" position="0 1.5 -5" width="4" height="3"></a-plane>
-        
+
+        <!-- Entité contenant l'image qui tourne -->
+        <a-entity geometry="primitive: plane; height: 3; width: 4" 
+                  material="src: #image" 
+                  position="0 1.5 -5" 
+                  animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
+        </a-entity>
+
         <!-- Caméra -->
         <a-entity position="0 1.6 0">
             <a-camera></a-camera>
         </a-entity>
-        
-        <!-- Modèle 3D -->
-        <a-entity gltf-model="#image_" position="0 0 -3"></a-entity>
     </a-scene>
 </body>
 </html>
