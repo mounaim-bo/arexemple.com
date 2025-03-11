@@ -10,14 +10,14 @@
             <img id="image" src="tableau-decoratif-street-art-visage.jpg">
         </a-assets>
 
-        <!-- Caméra avec activation du gyroscope -->
+        <!-- Caméra avec contrôles mobiles et PC -->
         <a-entity id="cameraRig" position="0 1.6 3">
-            <a-camera wasd-controls look-controls="enabled: false">
+            <a-camera wasd-controls look-controls="touchEnabled: true; mouseEnabled: true">
                 <a-cursor></a-cursor>
             </a-camera>
         </a-entity>
 
-        <!-- Image interactive -->
+        <!-- Image cliquable et tournante -->
         <a-entity id="rotatableImage"
                   geometry="primitive: box; height: 3; width: 4; depth: 0.1" 
                   material="src: #image" 
@@ -32,27 +32,8 @@
         let rotationY = 0;
 
         const image = document.querySelector("#rotatableImage");
-        const camera = document.querySelector("a-camera");
 
-        // Activer manuellement le gyroscope sur iOS et Android
-        function enableGyroscope() {
-            if (typeof DeviceOrientationEvent.requestPermission === "function") {
-                DeviceOrientationEvent.requestPermission().then((response) => {
-                    if (response === "granted") {
-                        camera.setAttribute("look-controls", "enabled: true");
-                        console.log("Gyroscope activé !");
-                    }
-                }).catch(console.error);
-            } else {
-                camera.setAttribute("look-controls", "enabled: true");
-            }
-        }
-
-        // Activer la caméra et le gyroscope au premier clic/touch
-        document.addEventListener("click", enableGyroscope);
-        document.addEventListener("touchstart", enableGyroscope);
-
-        // Détection du clic et mouvement pour tourner l'image
+        // Détection du clic de la souris (ou toucher sur mobile)
         document.addEventListener("mousedown", (event) => {
             isDragging = true;
             lastX = event.clientX;
@@ -71,7 +52,7 @@
             }
         });
 
-        // Support mobile (écrans tactiles)
+        // Support pour mobile (écrans tactiles)
         document.addEventListener("touchstart", (event) => {
             isDragging = true;
             lastX = event.touches[0].clientX;
@@ -87,6 +68,17 @@
                 rotationY += deltaX * 0.5;
                 image.setAttribute("rotation", `0 ${rotationY} 0`);
                 lastX = event.touches[0].clientX;
+            }
+        });
+
+        // Demande d'accès au gyroscope pour certains navigateurs mobiles
+        document.addEventListener("click", () => {
+            if (typeof DeviceOrientationEvent.requestPermission === "function") {
+                DeviceOrientationEvent.requestPermission().then((response) => {
+                    if (response === "granted") {
+                        console.log("Gyroscope activé !");
+                    }
+                }).catch(console.error);
             }
         });
     </script>
