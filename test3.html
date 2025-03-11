@@ -1,35 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-      <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-      <style>
-          body { 
-              margin: 0; 
-              overflow: hidden; 
-              touch-action: none; /* Empêche le pinch-zoom du navigateur */
-              overflow: hidden;   /* Empêche le défilement de la page */
-          }
-          #draggable-image {
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              width: 100px;
-              height: 100px;
-              transform: translate(-50%, -50%);
-              cursor: grab;
-          }
-      </style>
-  </head>
-  <body>
-  
-      <!-- Scène AR -->
-      <a-scene>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene>
         <a-assets>
-          <a-asset-item src="></a-asset-item>
+            <img id="image" src="tableau-decoratif-street-art-visage.jpg">
         </a-assets>
-        <a-marker-camera preset='hiro'></a-marker-camera>
-      </a-scene>
-      <script></script>
-  </body>
+
+        <!-- Entité contenant l'image qui tourne -->
+        <a-entity geometry="primitive: plane; height: 3; width: 4" 
+                  material="src: #image" 
+                  position="0 1.5 -5" 
+                  animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
+        </a-entity>
+
+        <!-- Caméra -->
+        <a-entity position="0 1.6 0">
+            <a-camera></a-camera>
+        </a-entity>
+    </a-scene>
+</body>
 </html>
