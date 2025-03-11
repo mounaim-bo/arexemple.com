@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-      <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-  </head>
-  <body>
-  
-      <!-- Scène AR -->
-      <a-scene>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene>
         <a-assets>
-          <img id="sky" src="tableau-decoratif-street-art-visage.jpg">
-          <a-asset-item id="image_" src="sans_nom.glb"></a-asset-item>
+            <img id="sky" src="tableau-decoratif-street-art-visage.jpg">
+            <a-asset-item id="image_" src="sans_nom.glb"></a-asset-item>
         </a-assets>
+        
+        <!-- Image visible à l'extérieur -->
         <a-plane src="#sky" position="0 1.5 -5" width="4" height="3"></a-plane>
-        <a-entity position="-3 0 50">
-          <a-camera></a-camera>
+        
+        <!-- Caméra -->
+        <a-entity position="0 1.6 0">
+            <a-camera></a-camera>
         </a-entity>
-        <a-entity gltf-model="#image_"></a-entity>
-      </a-scene>
-  </body>
+        
+        <!-- Modèle 3D -->
+        <a-entity gltf-model="#image_" position="0 0 -3"></a-entity>
+    </a-scene>
+</body>
 </html>
