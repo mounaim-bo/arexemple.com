@@ -10,14 +10,14 @@
             <img id="image" src="tableau-decoratif-street-art-visage.jpg">
         </a-assets>
 
-        <!-- Caméra -->
-        <a-entity position="0 1.6 0">
-            <a-camera>
+        <!-- Caméra avec contrôles utilisateur -->
+        <a-entity id="cameraRig" position="0 1.6 0">
+            <a-camera wasd-controls look-controls>
                 <a-cursor></a-cursor>
             </a-camera>
         </a-entity>
 
-        <!-- Image que l'utilisateur peut faire tourner -->
+        <!-- Image interactive que l'utilisateur peut faire tourner -->
         <a-entity id="rotatableImage"
                   geometry="primitive: plane; height: 3; width: 4" 
                   material="src: #image" 
