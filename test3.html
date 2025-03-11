@@ -10,20 +10,66 @@
             <img id="image" src="tableau-decoratif-street-art-visage.jpg">
         </a-assets>
 
-        <!-- Caméra avec contrôle utilisateur -->
+        <!-- Caméra -->
         <a-entity position="0 1.6 0">
             <a-camera>
                 <a-cursor></a-cursor>
             </a-camera>
         </a-entity>
 
-        <!-- Image qui tourne sur elle-même -->
-        <a-entity geometry="primitive: plane; height: 3; width: 4" 
+        <!-- Image que l'utilisateur peut faire tourner -->
+        <a-entity id="rotatableImage"
+                  geometry="primitive: plane; height: 3; width: 4" 
                   material="src: #image" 
-                  position="0 1.5 -5" 
-                  rotation="0 0 0"
-                  animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
+                  position="0 1.5 -5"
+                  rotation="0 0 0">
         </a-entity>
     </a-scene>
+
+    <script>
+        let isDragging = false;
+        let lastX = 0;
+        let rotationY = 0;
+
+        const image = document.querySelector("#rotatableImage");
+
+        // Détection du clic de la souris (ou toucher sur mobile)
+        document.addEventListener("mousedown", (event) => {
+            isDragging = true;
+            lastX = event.clientX;
+        });
+
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+        });
+
+        document.addEventListener("mousemove", (event) => {
+            if (isDragging) {
+                let deltaX = event.clientX - lastX;
+                rotationY += deltaX * 0.5; // Sensibilité de rotation
+                image.setAttribute("rotation", `0 ${rotationY} 0`);
+                lastX = event.clientX;
+            }
+        });
+
+        // Support pour les écrans tactiles
+        document.addEventListener("touchstart", (event) => {
+            isDragging = true;
+            lastX = event.touches[0].clientX;
+        });
+
+        document.addEventListener("touchend", () => {
+            isDragging = false;
+        });
+
+        document.addEventListener("touchmove", (event) => {
+            if (isDragging) {
+                let deltaX = event.touches[0].clientX - lastX;
+                rotationY += deltaX * 0.5;
+                image.setAttribute("rotation", `0 ${rotationY} 0`);
+                lastX = event.touches[0].clientX;
+            }
+        });
+    </script>
 </body>
 </html>
