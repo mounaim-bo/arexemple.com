@@ -5,19 +5,21 @@
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 </head>
 <body>
-    <a-scene>
+    <a-scene embedded vr-mode-ui="enabled: false">
         <a-assets>
             <img id="image" src="tableau-decoratif-street-art-visage.jpg">
         </a-assets>
 
-        <!-- Caméra avec contrôles utilisateur -->
-        <a-entity id="cameraRig" position="0 1.6 0">
-            <a-marker-camera preset='hiro'></a-marker-camera>
+        <!-- Caméra avec contrôles mobiles et PC -->
+        <a-entity id="cameraRig" position="0 1.6 3">
+            <a-camera wasd-controls look-controls="touchEnabled: true; mouseEnabled: true">
+                <a-cursor></a-cursor>
+            </a-camera>
         </a-entity>
 
-        <!-- Image interactive que l'utilisateur peut faire tourner -->
+        <!-- Image cliquable et tournante -->
         <a-entity id="rotatableImage"
-                  geometry="primitive: plane; height: 3; width: 4" 
+                  geometry="primitive: box; height: 3; width: 4; depth: 0.1" 
                   material="src: #image" 
                   position="0 1.5 -5"
                   rotation="0 0 0">
@@ -44,13 +46,13 @@
         document.addEventListener("mousemove", (event) => {
             if (isDragging) {
                 let deltaX = event.clientX - lastX;
-                rotationY += deltaX * 0.5; // Sensibilité de rotation
+                rotationY += deltaX * 0.5;
                 image.setAttribute("rotation", `0 ${rotationY} 0`);
                 lastX = event.clientX;
             }
         });
 
-        // Support pour les écrans tactiles
+        // Support pour mobile (écrans tactiles)
         document.addEventListener("touchstart", (event) => {
             isDragging = true;
             lastX = event.touches[0].clientX;
@@ -66,6 +68,17 @@
                 rotationY += deltaX * 0.5;
                 image.setAttribute("rotation", `0 ${rotationY} 0`);
                 lastX = event.touches[0].clientX;
+            }
+        });
+
+        // Demande d'accès au gyroscope pour certains navigateurs mobiles
+        document.addEventListener("click", () => {
+            if (typeof DeviceOrientationEvent.requestPermission === "function") {
+                DeviceOrientationEvent.requestPermission().then((response) => {
+                    if (response === "granted") {
+                        console.log("Gyroscope activé !");
+                    }
+                }).catch(console.error);
             }
         });
     </script>
