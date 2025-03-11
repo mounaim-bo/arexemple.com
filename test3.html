@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene>
+        <a-assets>
+            <img id="image" src="tableau-decoratif-street-art-visage.jpg">
+        </a-assets>
+
+        <!-- Caméra avec contrôle utilisateur -->
+        <a-entity position="0 1.6 0">
+            <a-camera>
+                <a-cursor></a-cursor>
+            </a-camera>
+        </a-entity>
+
+        <!-- Image qui tourne sur elle-même -->
+        <a-entity geometry="primitive: plane; height: 3; width: 4" 
+                  material="src: #image" 
+                  position="0 1.5 -5" 
+                  rotation="0 0 0"
+                  animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
+        </a-entity>
+    </a-scene>
+</body>
+</html>
