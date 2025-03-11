@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene embedded vr-mode-ui="enabled: false">
+        <a-assets>
+            <img id="image" src="tableau-decoratif-street-art-visage.jpg">
+        </a-assets>
+
+        <!-- Caméra avec activation du gyroscope -->
+        <a-entity id="cameraRig" position="0 1.6 3">
+            <a-camera wasd-controls look-controls="enabled: false">
+                <a-cursor></a-cursor>
+            </a-camera>
+        </a-entity>
+
+        <!-- Image interactive -->
+        <a-entity id="rotatableImage"
+                  geometry="primitive: box; height: 3; width: 4; depth: 0.1" 
+                  material="src: #image" 
+                  position="0 1.5 -5"
+                  rotation="0 0 0">
+        </a-entity>
+    </a-scene>
+
+    <script>
+        let isDragging = false;
+        let lastX = 0;
+        let rotationY = 0;
+
+        const image = document.querySelector("#rotatableImage");
+        const camera = document.querySelector("a-camera");
+
+        // Activer manuellement le gyroscope sur iOS et Android
+        function enableGyroscope() {
+            if (typeof DeviceOrientationEvent.requestPermission === "function") {
+                DeviceOrientationEvent.requestPermission().then((response) => {
+                    if (response === "granted") {
+                        camera.setAttribute("look-controls", "enabled: true");
+                        console.log("Gyroscope activé !");
+                    }
+                }).catch(console.error);
+            } else {
+                camera.setAttribute("look-controls", "enabled: true");
+            }
+        }
+
+        // Activer la caméra et le gyroscope au premier clic/touch
+        document.addEventListener("click", enableGyroscope);
+        document.addEventListener("touchstart", enableGyroscope);
+
+        // Détection du clic et mouvement pour tourner l'image
+        document.addEventListener("mousedown", (event) => {
+            isDragging = true;
+            lastX = event.clientX;
+        });
+
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+        });
+
+        document.addEventListener("mousemove", (event) => {
+            if (isDragging) {
+                let deltaX = event.clientX - lastX;
+                rotationY += deltaX * 0.5;
+                image.setAttribute("rotation", `0 ${rotationY} 0`);
+                lastX = event.clientX;
+            }
+        });
+
+        // Support mobile (écrans tactiles)
+        document.addEventListener("touchstart", (event) => {
+            isDragging = true;
+            lastX = event.touches[0].clientX;
+        });
+
+        document.addEventListener("touchend", () => {
+            isDragging = false;
+        });
+
+        document.addEventListener("touchmove", (event) => {
+            if (isDragging) {
+                let deltaX = event.touches[0].clientX - lastX;
+                rotationY += deltaX * 0.5;
+                image.setAttribute("rotation", `0 ${rotationY} 0`);
+                lastX = event.touches[0].clientX;
+            }
+        });
+    </script>
+</body>
+</html>
