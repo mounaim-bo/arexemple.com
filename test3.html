@@ -1,86 +1,35 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-</head>
-<body>
-    <a-scene embedded vr-mode-ui="enabled: false">
+  <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+      <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+      <style>
+          body { 
+              margin: 0; 
+              overflow: hidden; 
+              touch-action: none; /* Empêche le pinch-zoom du navigateur */
+              overflow: hidden;   /* Empêche le défilement de la page */
+          }
+          #draggable-image {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 100px;
+              height: 100px;
+              transform: translate(-50%, -50%);
+              cursor: grab;
+          }
+      </style>
+  </head>
+  <body>
+  
+      <!-- Scène AR -->
+      <a-scene>
         <a-assets>
-            <img id="image" src="tableau-decoratif-street-art-visage.jpg">
+          <a-asset-item src="></a-asset-item>
         </a-assets>
-
-        <!-- Caméra avec contrôles mobiles et PC -->
-        <a-entity id="cameraRig" position="0 1.6 3">
-            <a-camera wasd-controls look-controls="touchEnabled: true; mouseEnabled: true">
-                <a-cursor></a-cursor>
-            </a-camera>
-        </a-entity>
-
-        <!-- Image cliquable et tournante -->
-        <a-entity id="rotatableImage"
-                  geometry="primitive: box; height: 3; width: 4; depth: 0.1" 
-                  material="src: #image" 
-                  position="0 1.5 -5"
-                  rotation="0 0 0">
-        </a-entity>
-    </a-scene>
-
-    <script>
-        let isDragging = false;
-        let lastX = 0;
-        let rotationY = 0;
-
-        const image = document.querySelector("#rotatableImage");
-
-        // Détection du clic de la souris (ou toucher sur mobile)
-        document.addEventListener("mousedown", (event) => {
-            isDragging = true;
-            lastX = event.clientX;
-        });
-
-        document.addEventListener("mouseup", () => {
-            isDragging = false;
-        });
-
-        document.addEventListener("mousemove", (event) => {
-            if (isDragging) {
-                let deltaX = event.clientX - lastX;
-                rotationY += deltaX * 0.5;
-                image.setAttribute("rotation", `0 ${rotationY} 0`);
-                lastX = event.clientX;
-            }
-        });
-
-        // Support pour mobile (écrans tactiles)
-        document.addEventListener("touchstart", (event) => {
-            isDragging = true;
-            lastX = event.touches[0].clientX;
-        });
-
-        document.addEventListener("touchend", () => {
-            isDragging = false;
-        });
-
-        document.addEventListener("touchmove", (event) => {
-            if (isDragging) {
-                let deltaX = event.touches[0].clientX - lastX;
-                rotationY += deltaX * 0.5;
-                image.setAttribute("rotation", `0 ${rotationY} 0`);
-                lastX = event.touches[0].clientX;
-            }
-        });
-
-        // Demande d'accès au gyroscope pour certains navigateurs mobiles
-        document.addEventListener("click", () => {
-            if (typeof DeviceOrientationEvent.requestPermission === "function") {
-                DeviceOrientationEvent.requestPermission().then((response) => {
-                    if (response === "granted") {
-                        console.log("Gyroscope activé !");
-                    }
-                }).catch(console.error);
-            }
-        });
-    </script>
-</body>
+        <a-marker-camera preset='hiro'></a-marker-camera>
+      </a-scene>
+      <script></script>
+  </body>
 </html>
