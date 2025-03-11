@@ -3,31 +3,16 @@
   <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
       <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-      <style>
-          body { 
-              margin: 0; 
-              overflow: hidden; 
-              touch-action: none; /* Empêche le pinch-zoom du navigateur */
-              overflow: hidden;   /* Empêche le défilement de la page */
-          }
-          #draggable-image {
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              width: 100px;
-              height: 100px;
-              transform: translate(-50%, -50%);
-              cursor: grab;
-          }
-      </style>
   </head>
   <body>
   
       <!-- Scène AR -->
       <a-scene>
         <a-assets>
+          <img id="sky" src="tableau-decoratif-street-art-visage.jpg">
           <a-asset-item id="image_" src="sans_nom.glb"></a-asset-item>
         </a-assets>
+        <a-sky src="#sky"></a-sky>
         <a-entity position="-3 0 50">
           <a-camera></a-camera>
         </a-entity>
