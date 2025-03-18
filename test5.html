@@ -1,0 +1,12 @@
+<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+<a-scene embedded arjs>
+    <!-- Ajout d'un marqueur (ex: Hiro) -->
+    <a-marker preset="hiro">
+        <!-- Affichage du modèle 3D -->
+        <a-gltf-model src="mon_model.glb" scale="0.1 0.1 0.1" position="0 0 0"></a-gltf-model>
+    </a-marker>
+
+    <!-- Caméra pour AR -->
+    <a-entity camera></a-entity>
+</a-scene>
