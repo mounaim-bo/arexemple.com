@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
-    <style>
-        body { 
-            margin: 0; 
-            overflow: hidden; 
-            touch-action: none; /* Désactive le zoom par défaut */
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAR avec AR.js</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
 </head>
-<body>
-
-    <!-- Scène AR -->
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-        <!-- Marqueur Hiro -->
-        <a-marker preset="hiro">
-            <!-- Modèle 3D GLB -->
-            <a-gltf-model 
-                src="Mixer.glb"
-                position="0 0 0"
-                scale="1 1 1"
-                rotation="0 180 0">
-            </a-gltf-model>
-        </a-marker>
+<body style="margin: 0; overflow: hidden;">
+    <!-- Activation de AR.js -->
+    <a-scene embedded arjs>
+        <!-- Lumière pour bien afficher le modèle -->
+        <a-light type="directional" intensity="1" position="1 1 1"></a-light>
         
-        <!-- Caméra AR -->
-        <a-entity camera></a-entity>
-    </a-scene>
+        <!-- Modèle 3D (Remplacez Mixer.glb par votre fichier) -->
+        <a-entity 
+            gltf-model="Mixer.glb"
+            position="0 0 -2" 
+            scale="1 1 1"
+            rotation="0 180 0">
+        </a-entity>
 
+        <!-- Caméra AR -->
+        <a-camera position="0 1.6 0"></a-camera>
+    </a-scene>
 </body>
 </html>
