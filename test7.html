@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulation AR EKIA</title>
+    <title>WebAR avec AR.js</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <!-- Activation de AR.js avec détection de plans -->
     <a-scene
-        arjs="sourceType: webcam; debugUIEnabled: true; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+        arjs="sourceType: webcam; debugUIEnabled: true; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best;"
         renderer="logarithmicDepthBuffer: true;"
+        embedded
         ar-hit-test="targetElement: #hit-test-target;">
         
         <!-- Cible pour la détection de plans -->
         <a-entity id="hit-test-target" visible="false"></a-entity>
 
-        <!-- Modèle 3D d'un produit EKIA -->
+        <!-- Modèle 3D (mixer) avec une taille réduite -->
         <a-entity
-            id="product"
-            gltf-model="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Duck/glTF-Binary/Duck.glb"
-            scale="0.1 0.1 0.1"
+            id="mymodel"
+            gltf-model="Mixer.glb"
+            scale="0.01 0.01 0.01" <!-- Taille réduite à 1% -->
             rotation="0 0 0"
             gesture-handler
             place-on-surface>
