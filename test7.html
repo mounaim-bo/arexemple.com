@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAR avec AR.js</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <!-- Activation de AR.js avec détection de plans -->
+    <a-scene
+        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+        renderer="logarithmicDepthBuffer: true;"
+        embedded
+        ar-hit-test="targetElement: #hit-test-target;">
+        
+        <!-- Cible pour la détection de plans -->
+        <a-entity id="hit-test-target" visible="false"></a-entity>
+
+        <!-- Modèle 3D (mixer) -->
+        <a-entity
+            id="mymodel"
+            gltf-model="Mixer.glb"
+            scale="0.5 0.5 0.5"
+            rotation="0 0 0"
+            gesture-handler
+            place-on-surface>
+        </a-entity>
+
+        <!-- Caméra AR -->
+        <a-entity camera look-controls="enabled: false"></a-entity>
+    </a-scene>
+
+    <script>
+      // Composant pour placer le modèle sur une surface détectée
+      AFRAME.registerComponent('place-on-surface', {
+          init: function () {
+              let el = this.el;
+              let scene = el.sceneEl;
+              let placed = false;
+
+              // Écouteur d'événement pour la détection de plans
+              scene.addEventListener('ar-hit-test-select', function (event) {
+                  if (!placed) {
+                      // Positionne le modèle à l'endroit de la surface détectée
+                      let position = event.detail.position;
+                      el.setAttribute('position', position);
+                      placed = true; // Empêche de repositionner à chaque clic
+                  }
+              });
+          }
+      });
+
+      // Composant pour gérer les gestes (rotation et zoom)
+      AFRAME.registerComponent('gesture-handler', {
+          init: function () {
+              let el = this.el;
+              let scene = el.sceneEl;
+              let isDragging = false;
+              let lastX = 0;
+              let lastY = 0;
+              let scaleFactor = 1;
+
+              // Écouteur pour le début du toucher
+              scene.addEventListener('touchstart', function (event) {
+                  if (event.touches.length === 1) {
+                      // Rotation : un seul doigt
+                      isDragging = true;
+                      lastX = event.touches[0].clientX;
+                      lastY = event.touches[0].clientY;
+                  } else if (event.touches.length === 2) {
+                      // Zoom : deux doigts
+                      let touch1 = event.touches[0];
+                      let touch2 = event.touches[1];
+                      lastDist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
+                  }
+              });
+
+              // Écouteur pour le mouvement du toucher
+              scene.addEventListener('touchmove', function (event) {
+                  if (isDragging && event.touches.length === 1) {
+                      // Rotation : un seul doigt
+                      let deltaX = event.touches[0].clientX - lastX;
+                      lastX = event.touches[0].clientX;
+                      let currentRotation = el.getAttribute('rotation');
+                      el.setAttribute('rotation', `0 ${currentRotation.y + deltaX * 0.5} 0`);
+                  } else if (event.touches.length === 2) {
+                      // Zoom : deux doigts
+                      let touch1 = event.touches[0];
+                      let touch2 = event.touches[1];
+                      let dist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
+                      let deltaDist = dist - lastDist;
+                      lastDist = dist;
+                      scaleFactor += deltaDist * 0.01;
+                      el.setAttribute('scale', `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
+                  }
+              });
+
+              // Écouteur pour la fin du toucher
+              scene.addEventListener('touchend', function () {
+                  isDragging = false;
+              });
+          }
+      });
+    </script>
+</body>
+</html>
