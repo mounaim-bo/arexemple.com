@@ -1,0 +1,83 @@
+1. AR.js Examples
+Description : Ce dépôt contient des exemples officiels d'AR.js, y compris la détection de plans, les marqueurs AR et l'affichage de modèles 3D.
+
+Lien : AR.js Examples sur GitHub
+
+2. WebAR avec A-Frame
+Description : Un projet simple qui montre comment utiliser A-Frame avec AR.js pour afficher des modèles 3D en AR.
+
+Lien : WebAR avec A-Frame sur GitHub
+
+3. AR Furniture Viewer
+Description : Un projet qui permet de visualiser des meubles en AR en utilisant AR.js et A-Frame.
+
+Lien : AR Furniture Viewer sur GitHub
+
+4. AR.js + Three.js
+Description : Un projet qui combine AR.js avec Three.js pour des expériences AR plus avancées.
+
+Lien : AR.js + Three.js sur GitHub
+
+5. AR Model Viewer
+Description : Un projet qui permet de visualiser des modèles 3D en AR en utilisant AR.js et A-Frame.
+
+Lien : AR Model Viewer sur GitHub
+
+6. AR.js Boilerplate
+Description : Un projet de démarrage pour créer des applications AR avec AR.js et A-Frame.
+
+Lien : AR.js Boilerplate sur GitHub
+
+7. AR.js + GLTF Models
+Description : Un projet qui montre comment afficher des modèles GLTF en AR avec AR.js.
+
+Lien : AR.js + GLTF Models sur GitHub
+
+8. AR.js + Plane Detection
+Description : Un projet qui montre comment utiliser la détection de plans avec AR.js pour afficher des modèles 3D sur des surfaces réelles.
+
+Lien : AR.js + Plane Detection sur GitHub
+
+9. AR.js + Gesture Controls
+Description : Un projet qui montre comment ajouter des contrôles gestuels (rotation, zoom) à des modèles 3D en AR.
+
+Lien : AR.js + Gesture Controls sur GitHub
+
+10. AR.js + E-commerce
+Description : Un projet qui montre comment intégrer AR.js dans une application e-commerce pour visualiser des produits en AR.
+
+Lien : AR.js + E-commerce sur GitHub
+
+Comment utiliser ces projets
+Clonez le dépôt :
+
+Utilisez la commande git clone pour télécharger le projet sur votre machine.
+
+Par exemple :
+
+bash
+Copy
+git clone https://github.com/AR-js-org/AR.js.git
+Suivez les instructions :
+
+Chaque projet contient généralement un fichier README.md avec des instructions pour configurer et exécuter le projet.
+
+Personnalisez le projet :
+
+Remplacez les modèles 3D par les vôtres.
+
+Ajustez les paramètres AR.js pour répondre à vos besoins.
+
+Conseils pour trouver d'autres projets
+Recherchez sur GitHub :
+
+Utilisez des mots-clés comme AR.js, A-Frame, WebAR, 3D Model Viewer, etc.
+
+Par exemple :
+
+bash
+Copy
+https://github.com/search?q=AR.js+3D+model
+Explorez les dépôts officiels :
+
+Les dépôts officiels d'AR.js et d'A-Frame contiennent de nombreux exemples et projets.
