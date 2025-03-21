@@ -18,11 +18,23 @@
             gltf-model="Mixer.glb"
             position="0 0 -2" 
             scale="1 1 1"
-            rotation="0 180 0">
+            rotation="0 180 0"
+            gesture-handler>
         </a-entity>
 
         <!-- Caméra AR -->
         <a-camera position="0 1.6 0"></a-camera>
     </a-scene>
 </body>
+<script>
+    AFRAME.registerComponent('gesture-handler', {
+        init: function () {
+            let el = this.el;
+            el.sceneEl.addEventListener('click', function (event) {
+                let touch = event.detail.intersection.point;
+                el.setAttribute('position', `${touch.x} ${touch.y} ${touch.z}`);
+            });
+        }
+    });
+</script>
 </html>
