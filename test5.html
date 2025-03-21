@@ -12,14 +12,12 @@
     <a-scene arjs>
         <!-- Lumière pour bien afficher le modèle -->
         <a-light type="directional" intensity="1" position="1 1 1"></a-light>
-        <a-marker-camera preset='custom'>
-            <a-entity 
-                gltf-model="Mixer.glb"
-                position="0 0 0" 
-                scale="1 1 1"
-                rotation="0 180 0">
-            </a-entity>
-        </a-marker-camera>
+        <a-entity 
+            gltf-model="Mixer.glb"
+            position="0 0 -2" 
+            scale="0.5 0.5 0.5"
+            rotation="0 180 0">
+        </a-entity>
         <!-- Modèle 3D (Remplacez Mixer.glb par votre fichier) -->
         <!--a-entity 
             gltf-model="Mixer.glb"
