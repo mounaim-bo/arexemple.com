@@ -12,7 +12,7 @@
     <a-scene arjs>
         <!-- Lumière pour bien afficher le modèle -->
         <a-light type="directional" intensity="1" position="1 1 1"></a-light>
-        <a-entity 
+        <a-entity id="mymodel"
             gltf-model="Mixer.glb"
             position="0 0 -2" 
             scale="0.5 0.5 0.5"
@@ -45,5 +45,21 @@
             });
         }
     });
+      AFRAME.registerComponent('stable-position', {
+        init: function () {
+          let el = this.el;
+          let placed = false;
+    
+          el.sceneEl.addEventListener('click', function (event) {
+            if (!placed) {
+              let touch = event.detail.intersection.point;
+              el.setAttribute('position', `${touch.x} ${touch.y} ${touch.z}`);
+              placed = true; // Empêche les mouvements après placement
+            }
+          });
+        }
+      });
+    
+      document.querySelector('#mymodel').setAttribute('stable-position', '');
 </script>
 </html>
