@@ -9,41 +9,43 @@
 </head>
 <body style="margin: 0; overflow: hidden;">
     <!-- Activation de AR.js -->
-    <a-scene arjs="sourceType: webcam; debugUIEnabled: false;">
-        <!-- Marqueur AR pour positionner le modèle -->
-        <a-marker type="pattern" url="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png">
-            <a-entity
-                id="mymodel"
-                gltf-model="Mixer.glb"
-                position="0 0 0" 
-                scale="0.5 0.5 0.5"
-                rotation="0 0 0"
-                gesture-handler
-                place-on-tap>
-            </a-entity>
-        </a-marker>
+    <a-scene arjs="sourceType: webcam; debugUIEnabled: false;" cursor="rayOrigin: mouse">
+        <!-- Modèle 3D -->
+        <a-entity
+            id="mymodel"
+            gltf-model="Mixer.glb"
+            position="0 0 -2"
+            scale="0.5 0.5 0.5"
+            rotation="0 0 0"
+            gesture-handler
+            place-on-tap>
+        </a-entity>
 
         <!-- Caméra AR -->
-        <a-entity camera></a-entity>
+        <a-entity camera look-controls="enabled: false"></a-entity>
     </a-scene>
 
     <script>
+      // Composant pour placer le modèle librement au clic
       AFRAME.registerComponent('place-on-tap', {
           init: function () {
               let el = this.el;
               let scene = el.sceneEl;
               let placed = false;
-    
+
+              // Écouteur d'événement pour le clic
               scene.addEventListener('click', function (event) {
-                  let touch = event.detail.intersection?.point;
-                  if (touch && !placed) {
-                      el.setAttribute('position', `${touch.x} ${touch.y} ${touch.z}`);
+                  let intersection = event.detail.intersection;
+                  if (intersection && !placed) {
+                      // Positionne le modèle à l'endroit du clic
+                      el.setAttribute('position', intersection.point);
                       placed = true; // Empêche de repositionner à chaque clic
                   }
               });
           }
       });
-    
+
+      // Composant pour gérer les gestes (rotation et zoom)
       AFRAME.registerComponent('gesture-handler', {
           init: function () {
               let el = this.el;
@@ -52,31 +54,32 @@
               let lastX = 0;
               let lastY = 0;
               let scaleFactor = 1;
-    
+
+              // Écouteur pour le début du toucher
               scene.addEventListener('touchstart', function (event) {
                   if (event.touches.length === 1) {
+                      // Rotation : un seul doigt
                       isDragging = true;
                       lastX = event.touches[0].clientX;
                       lastY = event.touches[0].clientY;
                   } else if (event.touches.length === 2) {
-                      // Détection du pincement pour le zoom
+                      // Zoom : deux doigts
                       let touch1 = event.touches[0];
                       let touch2 = event.touches[1];
-                      let dist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
-                      lastDist = dist;
+                      lastDist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
                   }
               });
-    
+
+              // Écouteur pour le mouvement du toucher
               scene.addEventListener('touchmove', function (event) {
                   if (isDragging && event.touches.length === 1) {
+                      // Rotation : un seul doigt
                       let deltaX = event.touches[0].clientX - lastX;
-                      let deltaY = event.touches[0].clientY - lastY;
                       lastX = event.touches[0].clientX;
-                      lastY = event.touches[0].clientY;
                       let currentRotation = el.getAttribute('rotation');
                       el.setAttribute('rotation', `0 ${currentRotation.y + deltaX * 0.5} 0`);
                   } else if (event.touches.length === 2) {
-                      // Zoom avec pincement
+                      // Zoom : deux doigts
                       let touch1 = event.touches[0];
                       let touch2 = event.touches[1];
                       let dist = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
@@ -86,13 +89,13 @@
                       el.setAttribute('scale', `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
                   }
               });
-    
+
+              // Écouteur pour la fin du toucher
               scene.addEventListener('touchend', function () {
                   isDragging = false;
               });
           }
       });
     </script>
-
 </body>
 </html>
