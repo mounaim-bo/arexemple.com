@@ -18,11 +18,11 @@
         <!-- Cible pour la détection de plans -->
         <a-entity id="hit-test-target" visible="false"></a-entity>
 
-        <!-- Modèle 3D (mixer) avec une taille réduite -->
+        <!-- Modèle 3D (mixer) -->
         <a-entity
             id="mymodel"
-            gltf-model="Mixer.glb"
-            scale="0 0 0" <!-- Taille réduite à 1% -->
+            gltf-model="Mixer.glb" <!-- Assurez-vous que le chemin est correct -->
+            scale="0.1 0.1 0.1"
             rotation="0 0 0"
             gesture-handler
             place-on-surface>
