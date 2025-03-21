@@ -12,11 +12,10 @@
     <a-scene
         arjs="sourceType: webcam; debugUIEnabled: true; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best;"
         renderer="logarithmicDepthBuffer: true;"
-        embedded
         ar-hit-test="targetElement: #hit-test-target;">
         
         <!-- Cible pour la détection de plans -->
-        <!--a-entity id="hit-test-target" visible="false"></a-entity-->
+        <a-entity id="hit-test-target" visible="false"></a-entity>
 
         <!-- Modèle 3D (mixer) -->
         <a-entity
