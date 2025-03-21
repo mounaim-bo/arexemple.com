@@ -12,14 +12,21 @@
     <a-scene arjs>
         <!-- Lumière pour bien afficher le modèle -->
         <a-light type="directional" intensity="1" position="1 1 1"></a-light>
-        
+        <a-marker-camera preset='custom'>
+            <a-entity 
+                gltf-model="Mixer.glb"
+                position="0 0 0" 
+                scale="1 1 1"
+                rotation="0 180 0">
+            </a-entity>
+        </a-marker-camera>
         <!-- Modèle 3D (Remplacez Mixer.glb par votre fichier) -->
-        <a-entity 
+        <!--a-entity 
             gltf-model="Mixer.glb"
             position="0 0 -2" 
             scale="1 1 1"
             rotation="0 0 0"
-            gesture-handler>
+            gesture-handler-->
         </a-entity>
         <!--a-entity gltf-model="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Duck/glTF-Binary/Duck.glb"
           position="0 0 -2" 
