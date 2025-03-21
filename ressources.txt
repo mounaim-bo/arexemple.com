@@ -81,3 +81,42 @@ https://github.com/search?q=AR.js+3D+model
 Explorez les dépôts officiels :
 
 Les dépôts officiels d'AR.js et d'A-Frame contiennent de nombreux exemples et projets.
+AR.js Examples
+
+Lien : https://github.com/AR-js-org/AR.js
+
+WebAR avec A-Frame
+*****************************************************************************************************************************************
+Lien : https://github.com/AR-js-org/studio
+
+AR Furniture Viewer
+
+Lien : https://github.com/aframevr/aframe
+
+AR.js + Three.js
+
+Lien : https://github.com/AR-js-org/AR.js/tree/master/three.js
+
+AR Model Viewer
+
+Lien : https://github.com/AR-js-org/AR.js/tree/master/aframe
+
+AR.js Boilerplate
+
+Lien : https://github.com/AR-js-org/AR.js-boilerplate
+
+AR.js + GLTF Models
+
+Lien : https://github.com/AR-js-org/AR.js/tree/master/aframe/examples
+
+AR.js + Plane Detection
+
+Lien : https://github.com/AR-js-org/AR.js/tree/master/aframe/examples/plane-detection
+
+AR.js + Gesture Controls
+
+Lien : https://github.com/AR-js-org/AR.js/tree/master/aframe/examples/gesture-controls
+
+AR.js + E-commerce
+
+Lien : https://github.com/AR-js-org/AR.js/tree/master/aframe/examples/e-commerce
