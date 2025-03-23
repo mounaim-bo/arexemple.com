@@ -9,9 +9,7 @@
 </head>
 <body style="margin: 0; overflow: hidden;">
     <!-- Activation de AR.js -->
-    <a-scene arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best;" cursor="rayOrigin: mouse" ar-hit-test="targetElement: #hit-test-target;">
-        <!-- Cible pour la détection de plans -->
-        <a-entity id="hit-test-target" visible="false"></a-entity>
+    <a-scene arjs="sourceType: webcam; debugUIEnabled: false;" cursor="rayOrigin: mouse">
         <!-- Modèle 3D -->
         <a-entity
             id="mymodel"
@@ -20,8 +18,7 @@
             scale="3 3 3"
             rotation="0 0 0"
             gesture-handler
-            place-on-tap
-            place-on-surface>
+            place-on-tap>
         </a-entity>
 
         <!-- Caméra AR -->
@@ -29,23 +26,6 @@
     </a-scene>
 
     <script>
-        AFRAME.registerComponent('place-on-surface', {
-          init: function () {
-              let el = this.el;
-              let scene = el.sceneEl;
-              let placed = false;
-
-              // Écouteur d'événement pour la détection de plans
-              scene.addEventListener('ar-hit-test-select', function (event) {
-                  if (!placed) {
-                      // Positionne le modèle à l'endroit de la surface détectée
-                      let position = event.detail.position;
-                      el.setAttribute('position', position);
-                      placed = true; // Empêche de repositionner à chaque clic
-                  }
-              });
-          }
-      });
       // Composant pour placer le modèle librement au clic
       AFRAME.registerComponent('place-on-tap', {
           init: function () {
@@ -95,9 +75,15 @@
                   if (isDragging && event.touches.length === 1) {
                       // Rotation : un seul doigt
                       let deltaX = event.touches[0].clientX - lastX;
+                      let deltaY = event.touches[0].clientY - lastY;
                       lastX = event.touches[0].clientX;
+                      lastY = event.touches[0].clientY;
+
                       let currentRotation = el.getAttribute('rotation');
-                      el.setAttribute('rotation', `0 ${currentRotation.y + deltaX * 0.5} 0`);
+                      let newRotationX = currentRotation.x - deltaY * 0.5; // Rotation sur l'axe X
+                      let newRotationY = currentRotation.y + deltaX * 0.5; // Rotation sur l'axe Y
+
+                      el.setAttribute('rotation', `${newRotationX} ${newRotationY} ${currentRotation.z}`);
                   } else if (event.touches.length === 2) {
                       // Zoom : deux doigts
                       let touch1 = event.touches[0];
