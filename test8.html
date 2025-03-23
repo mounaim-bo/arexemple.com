@@ -20,7 +20,8 @@
             scale="3 3 3"
             rotation="0 0 0"
             gesture-handler
-            place-on-tap>
+            place-on-tap
+            place-on-surface>
         </a-entity>
 
         <!-- Caméra AR -->
@@ -28,6 +29,23 @@
     </a-scene>
 
     <script>
+        AFRAME.registerComponent('place-on-surface', {
+          init: function () {
+              let el = this.el;
+              let scene = el.sceneEl;
+              let placed = false;
+
+              // Écouteur d'événement pour la détection de plans
+              scene.addEventListener('ar-hit-test-select', function (event) {
+                  if (!placed) {
+                      // Positionne le modèle à l'endroit de la surface détectée
+                      let position = event.detail.position;
+                      el.setAttribute('position', position);
+                      placed = true; // Empêche de repositionner à chaque clic
+                  }
+              });
+          }
+      });
       // Composant pour placer le modèle librement au clic
       AFRAME.registerComponent('place-on-tap', {
           init: function () {
