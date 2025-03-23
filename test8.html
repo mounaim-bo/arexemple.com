@@ -9,7 +9,7 @@
 </head>
 <body style="margin: 0; overflow: hidden;">
     <!-- Activation de AR.js -->
-    <a-scene arjs="sourceType: webcam; debugUIEnabled: false;" cursor="rayOrigin: mouse" ar-hit-test="targetElement: #hit-test-target;">
+    <a-scene arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best;" cursor="rayOrigin: mouse" ar-hit-test="targetElement: #hit-test-target;">
         <!-- Cible pour la détection de plans -->
         <a-entity id="hit-test-target" visible="false"></a-entity>
         <!-- Modèle 3D -->
