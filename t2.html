@@ -11,13 +11,20 @@
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs="sourceType: webcam;">
+        <!-- Lumières pour le modèle 3D -->
+        <a-light type="directional" position="1 1 1" intensity="1"></a-light>
+        <a-light type="ambient" intensity="0.5"></a-light>
+        
+        <!-- Sol de référence pour tester le positionnement -->
+        <a-plane position="0 0 0" rotation="-90 0 0" width="2" height="2" color="gray"></a-plane>
+        
         <!-- Caméra en mode AR -->
         <a-camera position="0 0 0" look-controls-enabled="false"></a-camera>
         
         <!-- Ancrage sur la surface détectée -->
         <a-entity id="anchor" position="0 0 0">
-            <!-- Modèle 3D placé SOUS la table (-0.3 en Y) -->
-            <a-gltf-model id="model" src="Mixer.glb" position="0 -0.3 0" scale="0.5 0.5 0.5"></a-gltf-model>
+            <!-- Modèle 3D placé SOUS la table (-0.3 en Y) avec un scale plus grand -->
+            <a-gltf-model id="model" src="Mixer.glb" position="0 -0.3 0" scale="5 5 5" rotation="0 180 0"></a-gltf-model>
         </a-entity>
     </a-scene>
 </body>
