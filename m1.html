@@ -36,7 +36,7 @@
     renderer.xr.enabled = true;
     document.body.appendChild(renderer.domElement);
 
-    document.body.appendChild(THREE.ARButton.createButton(renderer, { requiredFeatures: ['hit-test'] }));
+    document.body.appendChild(ARButton.createButton(renderer, { requiredFeatures: ['hit-test'] }));
 
     controller = renderer.xr.getController(0);
     controller.addEventListener('select', onSelect);
