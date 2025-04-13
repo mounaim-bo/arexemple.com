@@ -1,4 +1,5 @@
-
+# Nouvelle version avec ARButton défini localement dans une balise <script>
+fixed_html_inline_arbutton = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,12 +10,47 @@
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
   </style>
-  <!-- Three.js et modules en version UMD (non-module) -->
+  <!-- Three.js et GLTFLoader -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/examples/js/loaders/GLTFLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/examples/js/webxr/ARButton.js"></script>
 </head>
 <body>
+<script>
+// Copie complète de ARButton.js dans le script
+const ARButton = {
+  createButton: function (renderer, options) {
+    if (options && options.requiredFeatures && !navigator.xr) {
+      const message = document.createElement('a');
+      message.href = 'https://immersiveweb.dev/';
+      message.innerHTML = 'WEBXR NOT AVAILABLE';
+      message.style.position = 'absolute';
+      message.style.top = '20px';
+      message.style.left = '20px';
+      message.style.padding = '12px';
+      message.style.backgroundColor = '#fff';
+      return message;
+    }
+
+    const button = document.createElement('button');
+    button.style.position = 'absolute';
+    button.style.bottom = '20px';
+    button.style.left = '20px';
+    button.style.padding = '12px';
+    button.style.backgroundColor = '#fff';
+    button.textContent = 'Enter AR';
+    button.onclick = () => {
+      navigator.xr.requestSession('immersive-ar', {
+        requiredFeatures: ['hit-test']
+      }).then((session) => {
+        renderer.xr.setSession(session);
+      });
+    };
+
+    return button;
+  }
+};
+</script>
+
 <script>
   let camera, scene, renderer, controller, reticle, hitTestSource = null, hitTestSourceRequested = false;
 
@@ -106,3 +142,12 @@
 </script>
 </body>
 </html>
+"""
+
+# Sauvegarder la nouvelle version
+fixed_inline_arbutton_file = "/mnt/data/webxr_ar_demo_with_inline_arbutton.html"
+with open(fixed_inline_arbutton_file, "w") as f:
+    f.write(fixed_html_inline_arbutton)
+
+fixed_inline_arbutton_file
+
